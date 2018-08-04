@@ -1,0 +1,6 @@
+db/
+redis/
+node_modules
+
+certs/server.crt
+certs/server.key
