@@ -8,7 +8,7 @@ services:
     command: yarn start
     restart: always
     volumes:
-      - './app:/var/www/project/app'
+      - './src:/var/www/project/src'
     ports:
       - '8081:8081'
     environment:
@@ -45,7 +45,7 @@ services:
     ports:
       - '5432:5432'
     volumes:
-      - ./app/db:/var/lib/postgresql/data
+      - ./src/db:/var/lib/postgresql/data
 
   adminer:
     image: adminer

@@ -5,8 +5,7 @@ import setupMiddleware from './middleware';
 
 // import RedisStore from ('connect-redis')session;
 
-import auth from './routes/auth';
-import user from './routes/user';
+import { restRouter } from './api';
 
 const app = express();
 
@@ -24,8 +23,7 @@ setupMiddleware(app);
 //     res.send(`Hello World! session`);
 // });
 
-app.use('/', auth);
-app.use('/user', user);
+app.use('/v1', restRouter);
 
 app.listen(config.port, () => {
     console.log(`app listening on port ${config.port}`);
