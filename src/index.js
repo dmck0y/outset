@@ -2,11 +2,6 @@ import express from 'express';
 import config from './config';
 import setupMiddleware from './middleware';
 import models from './api/resources/models';
-
-// knex migration
-// passport auth
-// bcrypt
-
 import { restRouter } from './api';
 
 const app = express();
@@ -33,6 +28,8 @@ process.on('unhandledRejection', (reason, p) => {
     console.log('Unhandled Rejection at: Promise', p, 'reason:', reason);
 });
 
-app.listen(config.port, () => {
-    console.log(`app listening on port ${config.port}`);
+models.sequelize.sync().then(x => {
+    app.listen(config.port, () => {
+        console.log(`app listening on port ${config.port}`);
+    });
 });
