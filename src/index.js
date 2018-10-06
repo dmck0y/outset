@@ -1,29 +1,37 @@
 import express from 'express';
 import config from './config';
 import setupMiddleware from './middleware';
-// import session from 'express-session';
+import models from './api/resources/models';
 
-// import RedisStore from ('connect-redis')session;
+// knex migration
+// passport auth
+// bcrypt
 
 import { restRouter } from './api';
 
 const app = express();
 
-// app.use(session({
-//     store: new RedisStore({host: process.env.REDIS_URL}),
-//     secret: 'not a secret',
-//     saveUninitialized: true,
-//     resave: false
-// }));
-
 setupMiddleware(app);
 
-// app.get('/', (req, res) => {
-//     console.log(session)
-//     res.send(`Hello World! session`);
-// });
-
 app.use('/v1', restRouter);
+
+app.use((req, res, next) => {
+    const err = new Error('Not Found');
+    err.status = 404;
+    next(err);
+});
+
+app.use((err, req, res) => {
+    res.locals.message = err.message;
+    res.locals.error = req.app.get('env') === 'development' ? err : {};
+
+    res.status(err.status || 500);
+    res.render('error');
+});
+
+process.on('unhandledRejection', (reason, p) => {
+    console.log('Unhandled Rejection at: Promise', p, 'reason:', reason);
+});
 
 app.listen(config.port, () => {
     console.log(`app listening on port ${config.port}`);

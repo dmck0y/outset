@@ -1,4 +1,4 @@
-import { User } from './user.model';
+import models from '../models';
 import { generateControllers } from '../../modules/query';
 
-export default generateControllers(User);
+export default generateControllers(models.Users);

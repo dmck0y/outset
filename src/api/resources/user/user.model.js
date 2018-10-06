@@ -1,13 +1,12 @@
-import Sequelize from 'sequelize';
-import initializeModel from '../initializeModel.js';
-
-export const User = initializeModel('user', {
-    firstName: {
-        type: Sequelize.STRING
-    },
-    lastName: {
-        type: Sequelize.STRING
-    }
-});
-
-User.sync({force: true});
+module.exports = (sequelize, DataTypes) => {
+    const User = sequelize.define('users', {
+        username: {
+            type: DataTypes.STRING
+        },
+        password: {
+            type: DataTypes.STRING
+        }
+    });
+    
+    return User;
+};  

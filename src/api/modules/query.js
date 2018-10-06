@@ -1,11 +1,10 @@
 import merge from 'lodash.merge';
-import db from '../../db';
 
 const testData = {'msg': 'hello'}
 
 export const controllers = {
     createOne (model, body) {
-        return Promise.resolve(testData)
+        return model.create(body);
     },
 
     updateOne (docToUpdate, update) {
@@ -30,7 +29,9 @@ export const controllers = {
 };
 
 export const createOne = (model) => (req, res, next) => {
-    return controllers.createOne(model, req.body) 
+    return controllers.createOne(model, req.body)
+        .then(doc => res.send(201).json(doc))
+        .catch(err => next(err));
 }
 
 export const updateOne = (model) => (req, res, next) => {
@@ -52,7 +53,7 @@ export const getAll = (model) => (req, res, next) => {
 export const findByParam = (model) => (req, res, next) => {
     const { id }= req.params;
     return controllers.findByParam(model).then( _ => {
-        res.send(`the param ${id}`)
+        res.send(`the param ${JSON.stringify(_)}`)
     })
 }
 
